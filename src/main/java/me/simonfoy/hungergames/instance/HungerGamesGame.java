@@ -2,10 +2,13 @@ package me.simonfoy.hungergames.instance;
 
 import me.simonfoy.hungergames.GameState;
 import me.simonfoy.hungergames.HungerGames;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.UUID;
 
 public class HungerGamesGame extends GameListener {
 
@@ -29,7 +32,9 @@ public class HungerGamesGame extends GameListener {
     }
 
     public void onHungerGamesGameStart() {
-
+        for (UUID uuid : game.getKits().keySet()) {
+            game.getKits().get(uuid).onStart(Bukkit.getPlayer(uuid));
+        }
     }
 
     public void onHungerGamesGameEnd() {

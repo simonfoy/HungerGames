@@ -2,6 +2,10 @@ package me.simonfoy.hungergames.instance;
 
 import me.simonfoy.hungergames.GameState;
 import me.simonfoy.hungergames.HungerGames;
+import me.simonfoy.hungergames.instance.kit.Kit;
+import me.simonfoy.hungergames.instance.kit.KitType;
+import me.simonfoy.hungergames.instance.kit.type.ArcherKit;
+import me.simonfoy.hungergames.instance.kit.type.BeastmasterKit;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -20,6 +24,7 @@ public class Game {
     private Location spawn;
     private GameState state;
     private List<UUID> players;
+    private HashMap<UUID, Kit> kits;
     private Countdown countdown;
     private HungerGamesGame hungerGamesGame;
 
@@ -29,6 +34,7 @@ public class Game {
         this.spawn = new Location(Bukkit.getWorld("world"), -27, 90, 0);
         this.state = GameState.PREPARING;
         this.players = new ArrayList<>();
+        this.kits = new HashMap<>();
         this.countdown = new Countdown(hungerGames, this);
         this.hungerGamesGame = new HungerGamesGame(hungerGames, this);
     }
@@ -69,10 +75,12 @@ public class Game {
             for (UUID uuid : players) {
                 Player player = Bukkit.getPlayer(uuid);
                 player.teleport(hub);
+                removeKit(player.getUniqueId());
             }
             players.clear();
 
         }
+        kits.clear();
         sendTitle("", "");
         hungerGamesGame.unregister();
         setState(GameState.PREPARING);
@@ -132,6 +140,8 @@ public class Game {
         player.teleport(hub);
         player.sendTitle("", "");
 
+        removeKit(player.getUniqueId());
+
         if (state == GameState.PRE_START && players.size() < 1) {
             sendMessage(ChatColor.RED + "There is not enough players. Countdown stopped.");
             reset(false);
@@ -147,6 +157,22 @@ public class Game {
     public GameState getState() { return state; }
     public List<UUID> getPlayers() { return players; }
     public HungerGamesGame getHungerGamesGame() { return hungerGamesGame; }
-    public void setState(GameState state) { this.state = state; }
     public Countdown getCountdown() { return countdown; }
+    public void setState(GameState state) { this.state = state; }
+    public HashMap<UUID, Kit> getKits() { return kits; }
+
+    public void removeKit(UUID uuid) {
+        if (kits.containsKey(uuid)) {
+            kits.get(uuid).remove();
+            kits.remove(uuid);
+        }
+    }
+    public void setKit(UUID uuid, KitType type) {
+        removeKit(uuid);
+        if (type == KitType.ARCHER) {
+            kits.put(uuid, new ArcherKit(hungerGames, uuid));
+        } else if (type == KitType.BEASTMASTER) {
+            kits.put(uuid, new BeastmasterKit(hungerGames, uuid));
+        }
+    }
 }
