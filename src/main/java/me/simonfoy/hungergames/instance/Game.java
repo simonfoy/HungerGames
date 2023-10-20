@@ -128,6 +128,7 @@ public class Game {
     public void addPlayer(Player player) {
         players.add(player.getUniqueId());
         player.teleport(spawn);
+        player.sendMessage(ChatColor.GREEN + "Choose your kit with /kit!");
 
         if (state.equals(GameState.PREPARING) && players.size() == 1) {
             countdown.start();
