@@ -6,7 +6,8 @@ import org.bukkit.Material;
 public enum KitType {
 
     ARCHER(ChatColor.GOLD + "Archer", Material.BOW, "This is the Archer kit!"),
-    BEASTMASTER(ChatColor.GOLD + "Beastmaster", Material.BONE, "This is the Beastmaster kit!");
+    BEASTMASTER(ChatColor.GOLD + "Beastmaster", Material.BONE, "This is the Beastmaster kit!"),
+    GRANDPA(ChatColor.GOLD + "Grandpa", Material.STICK, "This is the Grandpa kit!");
 
     private String display, description;
     private Material material;
