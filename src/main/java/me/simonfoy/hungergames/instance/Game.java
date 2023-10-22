@@ -6,6 +6,7 @@ import me.simonfoy.hungergames.instance.kit.Kit;
 import me.simonfoy.hungergames.instance.kit.KitType;
 import me.simonfoy.hungergames.instance.kit.type.ArcherKit;
 import me.simonfoy.hungergames.instance.kit.type.BeastmasterKit;
+import me.simonfoy.hungergames.instance.kit.type.GrandpaKit;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -174,6 +175,12 @@ public class Game {
             kits.put(uuid, new ArcherKit(hungerGames, uuid));
         } else if (type == KitType.BEASTMASTER) {
             kits.put(uuid, new BeastmasterKit(hungerGames, uuid));
+        } else if (type == KitType.GRANDPA) {
+            kits.put(uuid, new GrandpaKit(hungerGames, uuid));
         }
+    }
+
+    public KitType getKitType(Player player) {
+        return kits.containsKey(player.getUniqueId()) ? kits.get(player.getUniqueId()).getType() : null;
     }
 }
