@@ -82,12 +82,17 @@ public class Game {
                 removeKit(player.getUniqueId());
             }
             players.clear();
-
         }
         kits.clear();
         sendTitle("", "");
         hungerGamesGame.unregister();
         setState(GameState.PREPARING);
+
+        for (UUID uuid : players) {
+            Player player = Bukkit.getPlayer(uuid);
+            getScoreBoardManager().setupGamePreStartScoreboard(player);
+        }
+
         if (countdown.isRunning()) {
             countdown.stop();
         }
@@ -138,6 +143,7 @@ public class Game {
         if (state.equals(GameState.PREPARING) && players.size() == 1) {
             countdown.start();
             setState(GameState.PRE_START);
+            getScoreBoardManager().setupGamePreStartScoreboard(player);
         }
     }
 
