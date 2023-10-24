@@ -7,6 +7,7 @@ import me.simonfoy.hungergames.instance.kit.KitType;
 import me.simonfoy.hungergames.instance.kit.type.ArcherKit;
 import me.simonfoy.hungergames.instance.kit.type.BeastmasterKit;
 import me.simonfoy.hungergames.instance.kit.type.GrandpaKit;
+import me.simonfoy.hungergames.manager.ScoreboardManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -28,6 +29,7 @@ public class Game {
     private HashMap<UUID, Kit> kits;
     private Countdown countdown;
     private HungerGamesGame hungerGamesGame;
+    private ScoreboardManager scoreBoardManager;
 
     public Game(HungerGames hungerGames) {
         this.hungerGames = hungerGames;
@@ -38,6 +40,7 @@ public class Game {
         this.kits = new HashMap<>();
         this.countdown = new Countdown(hungerGames, this);
         this.hungerGamesGame = new HungerGamesGame(hungerGames, this);
+        this.scoreBoardManager = new ScoreboardManager(hungerGames);
     }
 
     /* BASE GAME INSTANCE LOGIC */
@@ -129,6 +132,7 @@ public class Game {
     public void addPlayer(Player player) {
         players.add(player.getUniqueId());
         player.teleport(spawn);
+        getScoreBoardManager().setupGamePreparingScoreboard(player);
         player.sendMessage(ChatColor.GREEN + "Choose your kit with /kit!");
 
         if (state.equals(GameState.PREPARING) && players.size() == 1) {
@@ -140,6 +144,7 @@ public class Game {
     public void removePlayer(Player player) {
         players.remove(player.getUniqueId());
         player.teleport(hub);
+        getScoreBoardManager().clearScoreboard(player);
         player.sendTitle("", "");
 
         removeKit(player.getUniqueId());
@@ -160,6 +165,7 @@ public class Game {
     public List<UUID> getPlayers() { return players; }
     public HungerGamesGame getHungerGamesGame() { return hungerGamesGame; }
     public Countdown getCountdown() { return countdown; }
+    public ScoreboardManager getScoreBoardManager() { return scoreBoardManager; }
     public void setState(GameState state) { this.state = state; }
     public HashMap<UUID, Kit> getKits() { return kits; }
 

@@ -77,7 +77,7 @@ public class HungerGamesGame extends GameListener {
 
         if (game != null && game.getState().equals(GameState.IN_PROGRESS)) {
             if (droppedItem.getType() == Material.STICK) {
-                endHungerGamesGame(); // Assuming your game object has an end method
+                endHungerGamesGame();
                 event.getPlayer().sendMessage("You dropped a stick! Hunger Games Game over.");
             }
         }
