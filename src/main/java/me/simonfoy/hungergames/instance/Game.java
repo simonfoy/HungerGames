@@ -88,9 +88,9 @@ public class Game {
         hungerGamesGame.unregister();
         setState(GameState.PREPARING);
 
-        for (UUID uuid : players) {
-            Player player = Bukkit.getPlayer(uuid);
-            getScoreBoardManager().setupGamePreStartScoreboard(player);
+        for (Player players : Bukkit.getOnlinePlayers()) {
+            getScoreBoardManager().clearScoreboard(players);
+            getScoreBoardManager().setupGamePreparingScoreboard(players);
         }
 
         if (countdown.isRunning()) {
@@ -137,13 +137,17 @@ public class Game {
     public void addPlayer(Player player) {
         players.add(player.getUniqueId());
         player.teleport(spawn);
+        getScoreBoardManager().clearScoreboard(player);
         getScoreBoardManager().setupGamePreparingScoreboard(player);
         player.sendMessage(ChatColor.GREEN + "Choose your kit with /kit!");
 
-        if (state.equals(GameState.PREPARING) && players.size() == 1) {
+        if (state.equals(GameState.PREPARING) && players.size() == 2) {
+            for (Player players : Bukkit.getOnlinePlayers()) {
+                getScoreBoardManager().clearScoreboard(players);
+                getScoreBoardManager().setupGamePreStartScoreboard(players);
+            }
             countdown.start();
             setState(GameState.PRE_START);
-            getScoreBoardManager().setupGamePreStartScoreboard(player);
         }
     }
 
@@ -155,13 +159,13 @@ public class Game {
 
         removeKit(player.getUniqueId());
 
-        if (state == GameState.PRE_START && players.size() < 1) {
+        if (state == GameState.PRE_START && players.size() < 2) {
             sendMessage(ChatColor.RED + "There is not enough players. Countdown stopped.");
             reset(false);
             return;
         }
 
-        if (state == GameState.IN_PROGRESS && players.size() < 1) {
+        if (state == GameState.IN_PROGRESS && players.size() < 2) {
             sendMessage(ChatColor.RED + "The game has ended as too many players have left.");
             end();
         }
