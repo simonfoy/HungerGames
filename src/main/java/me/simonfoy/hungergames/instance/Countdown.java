@@ -49,6 +49,8 @@ public class Countdown extends BukkitRunnable {
 
         game.sendTitle(ChatColor.GREEN.toString() + countdownSeconds + " second" + (countdownSeconds == 1 ? "" : "s"), ChatColor.GRAY + "until game starts");
 
+        hungerGames.getGame().getScoreBoardManager().updateCountdown();
+
         countdownSeconds--;
     }
 

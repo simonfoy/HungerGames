@@ -112,6 +112,28 @@ public class ScoreboardManager {
         player.setScoreboard(scoreboard);
     }
 
+    public void updateCountdown() {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            Scoreboard scoreboard = player.getScoreboard();
+            Objective objective = scoreboard.getObjective("Pre_Start_HungerGames");
+
+            if (objective == null) {
+                continue; //
+            }
+
+            int countdownSeconds = hungerGames.getGame().getCountdown().getCountdownSeconds();
+
+            int minutes = countdownSeconds / 60;
+            int seconds = countdownSeconds % 60;
+            String timeFormatted = String.format("%02d:%02d", minutes, seconds);
+
+            Team countdownTeam = objective.getScoreboard().getTeam("countdown");
+            if (countdownTeam != null) {
+                countdownTeam.setSuffix(ChatColor.GREEN + timeFormatted);
+            }
+        }
+    }
+
     public void clearScoreboard(Player player) {
         Scoreboard clearScoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
         player.setScoreboard(clearScoreboard);
