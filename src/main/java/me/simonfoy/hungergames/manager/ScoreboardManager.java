@@ -112,6 +112,52 @@ public class ScoreboardManager {
         player.setScoreboard(scoreboard);
     }
 
+    public void setupGameStartScoreboard(Player player) {
+        Scoreboard scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
+        Objective objective = scoreboard.registerNewObjective("Start_HungerGames", "dummy",
+                ChatColor.AQUA + "" + ChatColor.BOLD + "Hunger Games");
+
+        objective.setDisplaySlot(DisplaySlot.SIDEBAR);
+
+        Date today = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+        String formattedDate = formatter.format(today);
+        Score date = objective.getScore(ChatColor.GRAY + formattedDate);
+        date.setScore(9);
+
+        Team timer = scoreboard.registerNewTeam("timer");
+        timer.addEntry(ChatColor.LIGHT_PURPLE.toString());
+        timer.setPrefix(ChatColor.WHITE + "Time Left: ");
+        timer.setSuffix(ChatColor.GREEN + "4:00");
+        objective.getScore(ChatColor.LIGHT_PURPLE.toString()).setScore(8);
+
+        Score space1 = objective.getScore(" ");
+        space1.setScore(7);
+
+        Score alive = objective.getScore(ChatColor.AQUA + "ALIVE: " + ChatColor.WHITE + "100");
+        alive.setScore(6);
+
+        Score dead = objective.getScore(ChatColor.RED + "DEAD: " + ChatColor.WHITE + "20");
+        dead.setScore(5);
+
+        Score space2 = objective.getScore("  ");
+        space2.setScore(4);
+
+        Team selectedKit = scoreboard.registerNewTeam("selectedkit");
+        selectedKit.addEntry(ChatColor.BOLD.toString());
+        selectedKit.setPrefix(ChatColor.WHITE + "Kit: ");
+        selectedKit.setSuffix(ChatColor.GREEN + "Archer");
+        objective.getScore(ChatColor.BOLD.toString()).setScore(3);
+
+        Score space3 = objective.getScore("   ");
+        space3.setScore(2);
+
+        Score website = objective.getScore(ChatColor.AQUA + "www.simonfoy.com");
+        website.setScore(1);
+
+        player.setScoreboard(scoreboard);
+    }
+
     public void updateCountdown() {
         for (Player player : Bukkit.getOnlinePlayers()) {
             Scoreboard scoreboard = player.getScoreboard();

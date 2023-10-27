@@ -51,6 +51,11 @@ public class Game {
         }
         hungerGamesGame.start();
         setState(GameState.IN_PROGRESS);
+
+        for (Player players : Bukkit.getOnlinePlayers()) {
+            getScoreBoardManager().clearScoreboard(players);
+            getScoreBoardManager().setupGameStartScoreboard(players);
+        }
         sendMessage(ChatColor.YELLOW + "Game is now in IN_PROGRESS State");
     }
 
