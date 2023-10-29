@@ -20,7 +20,7 @@ public class ScoreboardManager {
     public void setupGamePreparingScoreboard(Player player) {
         Scoreboard scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
         Objective objective = scoreboard.registerNewObjective("Preparing_HungerGames", "dummy",
-                ChatColor.YELLOW + "" + ChatColor.BOLD + "HUNGER GAMES");
+                ChatColor.AQUA + "" + ChatColor.BOLD + "HUNGER GAMES");
 
         objective.setDisplaySlot(DisplaySlot.SIDEBAR);
 
@@ -36,7 +36,7 @@ public class ScoreboardManager {
         Team playerCount = scoreboard.registerNewTeam("playerCount");
         playerCount.addEntry(ChatColor.GOLD.toString());
         playerCount.setPrefix(ChatColor.WHITE + "Players: ");
-        playerCount.setSuffix(ChatColor.GREEN + "" + "NumberOfPlayers" + "/" + "RequiredPlayers");
+        playerCount.setSuffix(ChatColor.GREEN + "" + "1" + "/" + "24");
         objective.getScore(ChatColor.GOLD.toString()).setScore(8);
 
         Score space2 = objective.getScore("  ");
@@ -57,7 +57,7 @@ public class ScoreboardManager {
         Score space4 = objective.getScore("    ");
         space4.setScore(2);
 
-        Score website = objective.getScore(ChatColor.YELLOW + "www.simonfoy.com");
+        Score website = objective.getScore(ChatColor.AQUA + "www.simonfoy.com");
         website.setScore(1);
 
         player.setScoreboard(scoreboard);
@@ -66,7 +66,7 @@ public class ScoreboardManager {
     public void setupGamePreStartScoreboard(Player player) {
         Scoreboard scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
         Objective objective = scoreboard.registerNewObjective("Pre_Start_HungerGames", "dummy",
-                ChatColor.YELLOW + "" + ChatColor.BOLD + "HUNGER GAMES");
+                ChatColor.AQUA + "" + ChatColor.BOLD + "HUNGER GAMES");
 
         objective.setDisplaySlot(DisplaySlot.SIDEBAR);
 
@@ -82,7 +82,7 @@ public class ScoreboardManager {
         Team playerCount = scoreboard.registerNewTeam("playerCount");
         playerCount.addEntry(ChatColor.GOLD.toString());
         playerCount.setPrefix(ChatColor.WHITE + "Players: ");
-        playerCount.setSuffix(ChatColor.GREEN + "" + "NumberOfPlayers" + "/" + "RequiredPlayers");
+        playerCount.setSuffix(ChatColor.GREEN + "" + "1" + "/" + "2");
         objective.getScore(ChatColor.GOLD.toString()).setScore(8);
 
         Score space2 = objective.getScore("  ");
@@ -106,7 +106,7 @@ public class ScoreboardManager {
         Score space4 = objective.getScore("    ");
         space4.setScore(2);
 
-        Score website = objective.getScore(ChatColor.YELLOW + "www.simonfoy.com");
+        Score website = objective.getScore(ChatColor.AQUA + "www.simonfoy.com");
         website.setScore(1);
 
         player.setScoreboard(scoreboard);
@@ -128,7 +128,7 @@ public class ScoreboardManager {
         Team timer = scoreboard.registerNewTeam("timer");
         timer.addEntry(ChatColor.LIGHT_PURPLE.toString());
         timer.setPrefix(ChatColor.WHITE + "Time Left: ");
-        timer.setSuffix(ChatColor.GREEN + "4:00");
+        timer.setSuffix(ChatColor.GREEN + "2:00");
         objective.getScore(ChatColor.LIGHT_PURPLE.toString()).setScore(8);
 
         Score space1 = objective.getScore(" ");
@@ -176,6 +176,28 @@ public class ScoreboardManager {
             Team countdownTeam = objective.getScoreboard().getTeam("countdown");
             if (countdownTeam != null) {
                 countdownTeam.setSuffix(ChatColor.GREEN + timeFormatted);
+            }
+        }
+    }
+
+    public void updateTimer() {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            Scoreboard scoreboard = player.getScoreboard();
+            Objective objective = scoreboard.getObjective("Start_HungerGames");
+
+            if (objective == null) {
+                continue; //
+            }
+
+            int timerSeconds = hungerGames.getGame().getTimer().getTimerSeconds();
+
+            int minutes = timerSeconds / 60;
+            int seconds = timerSeconds % 60;
+            String timeFormatted = String.format("%02d:%02d", minutes, seconds);
+
+            Team timerTeam = objective.getScoreboard().getTeam("timer");
+            if (timerTeam != null) {
+                timerTeam.setSuffix(ChatColor.GREEN + timeFormatted);
             }
         }
     }

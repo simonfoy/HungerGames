@@ -40,6 +40,7 @@ public class HungerGamesGame extends GameListener {
             game.getKits().get(uuid).onStart(Bukkit.getPlayer(uuid));
             Bukkit.getPlayer(uuid).closeInventory();
         }
+        game.getTimer().start();
     }
 
     public void onHungerGamesGameEnd() {
