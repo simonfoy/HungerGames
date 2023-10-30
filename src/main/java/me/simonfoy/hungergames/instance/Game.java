@@ -26,6 +26,7 @@ public class Game {
     private HashMap<UUID, Kit> kits;
     private Countdown countdown;
     private GameTimer timer;
+    private FeastTimer feastTimer;
     private HungerGamesGame hungerGamesGame;
     private ScoreboardManager scoreBoardManager;
 
@@ -38,6 +39,7 @@ public class Game {
         this.kits = new HashMap<>();
         this.countdown = new Countdown(hungerGames, this);
         this.timer = new GameTimer(hungerGames, this);
+        this.feastTimer = new FeastTimer(hungerGames, this);
         this.hungerGamesGame = new HungerGamesGame(hungerGames, this);
         this.scoreBoardManager = new ScoreboardManager(hungerGames);
     }
@@ -104,8 +106,13 @@ public class Game {
         if (timer.isRunning()) {
             timer.stop();
         }
+
+        if (feastTimer.isRunning()) {
+            feastTimer.stop();
+        }
         countdown = new Countdown(hungerGames, this);
         timer = new GameTimer(hungerGames, this);
+        feastTimer = new FeastTimer(hungerGames, this);
         hungerGamesGame = new HungerGamesGame(hungerGames, this);
     }
 
@@ -185,6 +192,7 @@ public class Game {
     public HungerGamesGame getHungerGamesGame() { return hungerGamesGame; }
     public Countdown getCountdown() { return countdown; }
     public GameTimer getTimer() { return timer; }
+    public FeastTimer getFeastTimer() { return feastTimer; }
     public ScoreboardManager getScoreBoardManager() { return scoreBoardManager; }
     public void setState(GameState state) { this.state = state; }
     public HashMap<UUID, Kit> getKits() { return kits; }
