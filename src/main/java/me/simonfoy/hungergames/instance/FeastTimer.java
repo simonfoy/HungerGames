@@ -1,6 +1,5 @@
 package me.simonfoy.hungergames.instance;
 
-import me.simonfoy.hungergames.GameState;
 import me.simonfoy.hungergames.HungerGames;
 import org.bukkit.ChatColor;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -48,7 +47,7 @@ public class FeastTimer extends BukkitRunnable {
 
         game.sendTitle(ChatColor.GREEN.toString() + feastTimerSeconds + " second" + (feastTimerSeconds == 1 ? "" : "s"), ChatColor.GRAY + "until game starts");
 
-        hungerGames.getGame().getScoreBoardManager().updateTimer();
+        hungerGames.getGame().getScoreBoardManager().updateFeastTimer();
 
         feastTimerSeconds--;
     }

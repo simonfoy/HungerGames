@@ -25,7 +25,8 @@ public class Game {
     private List<UUID> players;
     private HashMap<UUID, Kit> kits;
     private Countdown countdown;
-    private GameTimer timer;
+    private GameTimer gameTimer;
+    private InvincibilityTimer invincibilityTimer;
     private FeastTimer feastTimer;
     private HungerGamesGame hungerGamesGame;
     private ScoreboardManager scoreBoardManager;
@@ -38,7 +39,8 @@ public class Game {
         this.players = new ArrayList<>();
         this.kits = new HashMap<>();
         this.countdown = new Countdown(hungerGames, this);
-        this.timer = new GameTimer(hungerGames, this);
+        this.gameTimer = new GameTimer(hungerGames, this);
+        this.invincibilityTimer = new InvincibilityTimer(hungerGames, this);
         this.feastTimer = new FeastTimer(hungerGames, this);
         this.hungerGamesGame = new HungerGamesGame(hungerGames, this);
         this.scoreBoardManager = new ScoreboardManager(hungerGames);
@@ -103,15 +105,20 @@ public class Game {
             countdown.stop();
         }
 
-        if (timer.isRunning()) {
-            timer.stop();
+        if (gameTimer.isRunning()) {
+            gameTimer.stop();
+        }
+
+        if (invincibilityTimer.isRunning()) {
+            invincibilityTimer.stop();
         }
 
         if (feastTimer.isRunning()) {
             feastTimer.stop();
         }
         countdown = new Countdown(hungerGames, this);
-        timer = new GameTimer(hungerGames, this);
+        gameTimer = new GameTimer(hungerGames, this);
+        invincibilityTimer = new InvincibilityTimer(hungerGames, this);
         feastTimer = new FeastTimer(hungerGames, this);
         hungerGamesGame = new HungerGamesGame(hungerGames, this);
     }
@@ -191,7 +198,8 @@ public class Game {
     public List<UUID> getPlayers() { return players; }
     public HungerGamesGame getHungerGamesGame() { return hungerGamesGame; }
     public Countdown getCountdown() { return countdown; }
-    public GameTimer getTimer() { return timer; }
+    public GameTimer getGameTimer() { return gameTimer; }
+    public InvincibilityTimer getInvincibilityTimer() { return invincibilityTimer; }
     public FeastTimer getFeastTimer() { return feastTimer; }
     public ScoreboardManager getScoreBoardManager() { return scoreBoardManager; }
     public void setState(GameState state) { this.state = state; }

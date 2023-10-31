@@ -2,7 +2,6 @@ package me.simonfoy.hungergames;
 
 import me.simonfoy.hungergames.command.KitCommand;
 import me.simonfoy.hungergames.instance.Game;
-import me.simonfoy.hungergames.instance.GameListener;
 import me.simonfoy.hungergames.listener.ConnectListener;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;

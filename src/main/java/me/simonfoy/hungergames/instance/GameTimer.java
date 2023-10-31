@@ -1,6 +1,5 @@
 package me.simonfoy.hungergames.instance;
 
-import me.simonfoy.hungergames.GameState;
 import me.simonfoy.hungergames.HungerGames;
 import org.bukkit.ChatColor;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -12,16 +11,15 @@ public class GameTimer extends BukkitRunnable {
 
     private boolean isRunning = false;
 
-    private int timerSeconds;
+    private int gameTimer;
 
     public GameTimer(HungerGames hungerGames, Game game) {
         this.hungerGames = hungerGames;
         this.game = game;
-        this.timerSeconds = 120;
+        this.gameTimer = 0;
     }
 
     public void start() {
-        game.sendMessage(ChatColor.RED + "Everyone is invincible for 2 minutes.");
         isRunning = true;
         runTaskTimer(hungerGames, 0, 20);
     }
@@ -35,29 +33,30 @@ public class GameTimer extends BukkitRunnable {
 
     @Override
     public void run() {
-        if (timerSeconds == 0) {
+        if (gameTimer == 2700) {
             isRunning = false;
             cancel();
-            game.sendMessage(ChatColor.RED + "Invincibility is no longer active. Good luck!");
-            game.getFeastTimer().start();
+            game.sendMessage(ChatColor.RED + "The game has ended!");
+            game.end();
             return;
         }
 
-        if (timerSeconds <= 10) {
-            game.sendMessage(ChatColor.GREEN + "Game will start in " + timerSeconds + " second" + (timerSeconds == 1 ? "" : "s") + ".");
+        if (gameTimer == 2475) {
+            game.sendMessage(ChatColor.RED + "The game will end in 5 minutes!");
         }
 
-        game.sendTitle(ChatColor.GREEN.toString() + timerSeconds + " second" + (timerSeconds == 1 ? "" : "s"), ChatColor.GRAY + "until game starts");
+        if (gameTimer >= 120) {
+            hungerGames.getGame().getScoreBoardManager().updateGameTimer();
+        }
 
-        hungerGames.getGame().getScoreBoardManager().updateTimer();
-
-        timerSeconds--;
+        gameTimer++;
     }
 
     public int getTimerSeconds() {
-        return timerSeconds;
+        return gameTimer;
     }
     public boolean isRunning() {
         return isRunning;
     }
 }
+

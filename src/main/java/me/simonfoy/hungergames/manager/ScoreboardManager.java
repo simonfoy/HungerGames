@@ -123,25 +123,22 @@ public class ScoreboardManager {
         SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
         String formattedDate = formatter.format(today);
         Score date = objective.getScore(ChatColor.GRAY + formattedDate);
-        date.setScore(9);
+        date.setScore(7);
 
         Team timer = scoreboard.registerNewTeam("timer");
         timer.addEntry(ChatColor.LIGHT_PURPLE.toString());
         timer.setPrefix(ChatColor.WHITE + "Time Left: ");
         timer.setSuffix(ChatColor.GREEN + "2:00");
-        objective.getScore(ChatColor.LIGHT_PURPLE.toString()).setScore(8);
+        objective.getScore(ChatColor.LIGHT_PURPLE.toString()).setScore(6);
 
         Score space1 = objective.getScore(" ");
-        space1.setScore(7);
+        space1.setScore(5);
 
-        Score alive = objective.getScore(ChatColor.AQUA + "ALIVE: " + ChatColor.WHITE + "100");
-        alive.setScore(6);
-
-        Score dead = objective.getScore(ChatColor.RED + "DEAD: " + ChatColor.WHITE + "20");
-        dead.setScore(5);
+        Score alive = objective.getScore(ChatColor.WHITE + "Players: " + ChatColor.AQUA + "24");
+        alive.setScore(4);
 
         Score space2 = objective.getScore("  ");
-        space2.setScore(4);
+        space2.setScore(3);
 
         Team selectedKit = scoreboard.registerNewTeam("selectedkit");
         selectedKit.addEntry(ChatColor.BOLD.toString());
@@ -180,7 +177,7 @@ public class ScoreboardManager {
         }
     }
 
-    public void updateTimer() {
+    public void updateGameTimer() {
         for (Player player : Bukkit.getOnlinePlayers()) {
             Scoreboard scoreboard = player.getScoreboard();
             Objective objective = scoreboard.getObjective("Start_HungerGames");
@@ -189,7 +186,7 @@ public class ScoreboardManager {
                 continue; //
             }
 
-            int timerSeconds = hungerGames.getGame().getTimer().getTimerSeconds();
+            int timerSeconds = hungerGames.getGame().getGameTimer().getTimerSeconds();
 
             int minutes = timerSeconds / 60;
             int seconds = timerSeconds % 60;
@@ -197,6 +194,53 @@ public class ScoreboardManager {
 
             Team timerTeam = objective.getScoreboard().getTeam("timer");
             if (timerTeam != null) {
+                timerTeam.setPrefix(ChatColor.WHITE + "Time Elapsed: ");
+                timerTeam.setSuffix(ChatColor.GREEN + timeFormatted);
+            }
+        }
+    }
+
+    public void updateInvincibilityTimer() {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            Scoreboard scoreboard = player.getScoreboard();
+            Objective objective = scoreboard.getObjective("Start_HungerGames");
+
+            if (objective == null) {
+                continue; //
+            }
+
+            int timerSeconds = hungerGames.getGame().getInvincibilityTimer().getTimerSeconds();
+
+            int minutes = timerSeconds / 60;
+            int seconds = timerSeconds % 60;
+            String timeFormatted = String.format("%02d:%02d", minutes, seconds);
+
+            Team timerTeam = objective.getScoreboard().getTeam("timer");
+            if (timerTeam != null) {
+                timerTeam.setPrefix(ChatColor.WHITE + "Invincibility: ");
+                timerTeam.setSuffix(ChatColor.GREEN + timeFormatted);
+            }
+        }
+    }
+
+    public void updateFeastTimer() {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            Scoreboard scoreboard = player.getScoreboard();
+            Objective objective = scoreboard.getObjective("Start_HungerGames");
+
+            if (objective == null) {
+                continue; //
+            }
+
+            int timerSeconds = hungerGames.getGame().getFeastTimer().getFeastTimerSeconds();
+
+            int minutes = timerSeconds / 60;
+            int seconds = timerSeconds % 60;
+            String timeFormatted = String.format("%02d:%02d", minutes, seconds);
+
+            Team timerTeam = objective.getScoreboard().getTeam("timer");
+            if (timerTeam != null) {
+                timerTeam.setPrefix(ChatColor.WHITE + "Feast: ");
                 timerTeam.setSuffix(ChatColor.GREEN + timeFormatted);
             }
         }
