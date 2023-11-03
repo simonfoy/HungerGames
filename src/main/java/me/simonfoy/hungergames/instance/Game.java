@@ -23,6 +23,7 @@ public class Game {
     private Location spawn;
     private GameState state;
     private List<UUID> players;
+    private int requiredPlayers;
     private HashMap<UUID, Kit> kits;
     private Countdown countdown;
     private GameTimer gameTimer;
@@ -34,9 +35,10 @@ public class Game {
     public Game(HungerGames hungerGames) {
         this.hungerGames = hungerGames;
         this.hub = new Location(Bukkit.getWorld("world"), 0, 70, 0);
-        this.spawn = new Location(Bukkit.getWorld("world"), -27, 90, 0);
+        this.spawn = new Location(Bukkit.getWorld("world"), 0, 250, 0);
         this.state = GameState.PREPARING;
         this.players = new ArrayList<>();
+        this.requiredPlayers = 1;
         this.kits = new HashMap<>();
         this.countdown = new Countdown(hungerGames, this);
         this.gameTimer = new GameTimer(hungerGames, this);
@@ -160,11 +162,14 @@ public class Game {
     public void addPlayer(Player player) {
         players.add(player.getUniqueId());
         player.teleport(spawn);
+        player.closeInventory();
+        player.getInventory().clear();
         getScoreBoardManager().clearScoreboard(player);
         getScoreBoardManager().setupGamePreparingScoreboard(player);
         player.sendMessage(ChatColor.GREEN + "Choose your kit with /kit!");
+        kits.put(player.getUniqueId(), new ArcherKit(hungerGames, player.getUniqueId()));
 
-        if (state.equals(GameState.PREPARING) && players.size() == 1) {
+        if (state.equals(GameState.PREPARING) && players.size() == requiredPlayers) {
             for (Player players : Bukkit.getOnlinePlayers()) {
                 getScoreBoardManager().clearScoreboard(players);
                 getScoreBoardManager().setupGamePreStartScoreboard(players);
@@ -182,20 +187,22 @@ public class Game {
 
         removeKit(player.getUniqueId());
 
-        if (state == GameState.PRE_START && players.size() < 1) {
+        if (state == GameState.PRE_START && players.size() < requiredPlayers) {
             sendMessage(ChatColor.RED + "There is not enough players. Countdown stopped.");
             reset(false);
             return;
         }
 
-        if (state == GameState.IN_PROGRESS && players.size() < 1) {
+        if (state == GameState.IN_PROGRESS && players.size() < requiredPlayers) {
             sendMessage(ChatColor.RED + "The game has ended as too many players have left.");
             end();
         }
     }
 
+    public Location getSpawn() { return spawn; }
     public GameState getState() { return state; }
     public List<UUID> getPlayers() { return players; }
+    public int getRequiredPlayers() { return requiredPlayers; }
     public HungerGamesGame getHungerGamesGame() { return hungerGamesGame; }
     public Countdown getCountdown() { return countdown; }
     public GameTimer getGameTimer() { return gameTimer; }

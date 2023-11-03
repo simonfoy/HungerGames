@@ -5,6 +5,7 @@ import me.simonfoy.hungergames.HungerGames;
 import me.simonfoy.hungergames.instance.kit.KitType;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -39,7 +40,10 @@ public class HungerGamesGame extends GameListener {
         for (UUID uuid : game.getKits().keySet()) {
             game.getKits().get(uuid).onStart(Bukkit.getPlayer(uuid));
             Bukkit.getPlayer(uuid).closeInventory();
+            Bukkit.getPlayer(uuid).teleport(game.getSpawn());
+            Bukkit.getPlayer(uuid).setGameMode(GameMode.SURVIVAL);
         }
+        Bukkit.getWorld("world").setTime(1000);
         game.getGameTimer().start();
         game.getInvincibilityTimer().start();
     }

@@ -46,8 +46,6 @@ public class InvincibilityTimer extends BukkitRunnable {
             game.sendMessage(ChatColor.GREEN + "Invincibility will disable in " + invincibilityTimerSeconds + " second" + (invincibilityTimerSeconds == 1 ? "" : "s") + ".");
         }
 
-        game.sendTitle(ChatColor.GREEN.toString() + invincibilityTimerSeconds + " second" + (invincibilityTimerSeconds == 1 ? "" : "s"), ChatColor.GRAY + "until invisibility disables");
-
         hungerGames.getGame().getScoreBoardManager().updateInvincibilityTimer();
 
         invincibilityTimerSeconds--;

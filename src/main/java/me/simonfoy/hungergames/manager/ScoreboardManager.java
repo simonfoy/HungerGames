@@ -36,7 +36,7 @@ public class ScoreboardManager {
         Team playerCount = scoreboard.registerNewTeam("playerCount");
         playerCount.addEntry(ChatColor.GOLD.toString());
         playerCount.setPrefix(ChatColor.WHITE + "Players: ");
-        playerCount.setSuffix(ChatColor.GREEN + "" + "1" + "/" + "24");
+        playerCount.setSuffix(ChatColor.GREEN + "" + hungerGames.getGame().getPlayers().size() + "/" + hungerGames.getGame().getRequiredPlayers());
         objective.getScore(ChatColor.GOLD.toString()).setScore(8);
 
         Score space2 = objective.getScore("  ");
@@ -82,7 +82,7 @@ public class ScoreboardManager {
         Team playerCount = scoreboard.registerNewTeam("playerCount");
         playerCount.addEntry(ChatColor.GOLD.toString());
         playerCount.setPrefix(ChatColor.WHITE + "Players: ");
-        playerCount.setSuffix(ChatColor.GREEN + "" + "1" + "/" + "2");
+        playerCount.setSuffix(ChatColor.GREEN + "" + hungerGames.getGame().getPlayers().size() + "/" + hungerGames.getGame().getRequiredPlayers());
         objective.getScore(ChatColor.GOLD.toString()).setScore(8);
 
         Score space2 = objective.getScore("  ");
@@ -134,7 +134,7 @@ public class ScoreboardManager {
         Score space1 = objective.getScore(" ");
         space1.setScore(5);
 
-        Score alive = objective.getScore(ChatColor.WHITE + "Players: " + ChatColor.AQUA + "24");
+        Score alive = objective.getScore(ChatColor.WHITE + "Players: " + ChatColor.AQUA + hungerGames.getGame().getPlayers().size());
         alive.setScore(4);
 
         Score space2 = objective.getScore("  ");
@@ -143,7 +143,7 @@ public class ScoreboardManager {
         Team selectedKit = scoreboard.registerNewTeam("selectedkit");
         selectedKit.addEntry(ChatColor.BOLD.toString());
         selectedKit.setPrefix(ChatColor.WHITE + "Kit: ");
-        selectedKit.setSuffix(ChatColor.GREEN + "Archer");
+        selectedKit.setSuffix(ChatColor.GREEN + hungerGames.getGame().getKitType(player).getDisplay());
         objective.getScore(ChatColor.BOLD.toString()).setScore(3);
 
         Score space3 = objective.getScore("   ");
@@ -217,8 +217,8 @@ public class ScoreboardManager {
 
             Team timerTeam = objective.getScoreboard().getTeam("timer");
             if (timerTeam != null) {
-                timerTeam.setPrefix(ChatColor.WHITE + "Invincibility: ");
-                timerTeam.setSuffix(ChatColor.GREEN + timeFormatted);
+                timerTeam.setPrefix(ChatColor.WHITE + "Grace Period: ");
+                timerTeam.setSuffix(ChatColor.RED + timeFormatted);
             }
         }
     }
