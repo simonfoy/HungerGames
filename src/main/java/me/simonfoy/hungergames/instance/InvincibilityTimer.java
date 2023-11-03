@@ -43,10 +43,10 @@ public class InvincibilityTimer extends BukkitRunnable {
         }
 
         if (invincibilityTimerSeconds <= 10) {
-            game.sendMessage(ChatColor.GREEN + "Game will start in " + invincibilityTimerSeconds + " second" + (invincibilityTimerSeconds == 1 ? "" : "s") + ".");
+            game.sendMessage(ChatColor.GREEN + "Invincibility will disable in " + invincibilityTimerSeconds + " second" + (invincibilityTimerSeconds == 1 ? "" : "s") + ".");
         }
 
-        game.sendTitle(ChatColor.GREEN.toString() + invincibilityTimerSeconds + " second" + (invincibilityTimerSeconds == 1 ? "" : "s"), ChatColor.GRAY + "until game starts");
+        game.sendTitle(ChatColor.GREEN.toString() + invincibilityTimerSeconds + " second" + (invincibilityTimerSeconds == 1 ? "" : "s"), ChatColor.GRAY + "until invisibility disables");
 
         hungerGames.getGame().getScoreBoardManager().updateInvincibilityTimer();
 

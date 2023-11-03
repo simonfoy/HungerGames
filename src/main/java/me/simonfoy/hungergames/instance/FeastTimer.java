@@ -42,10 +42,10 @@ public class FeastTimer extends BukkitRunnable {
         }
 
         if (feastTimerSeconds <= 10) {
-            game.sendMessage(ChatColor.GREEN + "Game will start in " + feastTimerSeconds + " second" + (feastTimerSeconds == 1 ? "" : "s") + ".");
+            game.sendMessage(ChatColor.GREEN + "Feast will spawn in " + feastTimerSeconds + " second" + (feastTimerSeconds == 1 ? "" : "s") + ".");
         }
 
-        game.sendTitle(ChatColor.GREEN.toString() + feastTimerSeconds + " second" + (feastTimerSeconds == 1 ? "" : "s"), ChatColor.GRAY + "until game starts");
+        game.sendTitle(ChatColor.GREEN.toString() + feastTimerSeconds + " second" + (feastTimerSeconds == 1 ? "" : "s"), ChatColor.GRAY + "until Feast will spawn");
 
         hungerGames.getGame().getScoreBoardManager().updateFeastTimer();
 
