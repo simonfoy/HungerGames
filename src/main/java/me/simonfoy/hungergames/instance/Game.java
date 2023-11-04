@@ -10,6 +10,7 @@ import me.simonfoy.hungergames.instance.kit.type.GrandpaKit;
 import me.simonfoy.hungergames.manager.ScoreboardManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -38,7 +39,7 @@ public class Game {
         this.spawn = new Location(Bukkit.getWorld("world"), 0, 250, 0);
         this.state = GameState.PREPARING;
         this.players = new ArrayList<>();
-        this.requiredPlayers = 1;
+        this.requiredPlayers = 24;
         this.kits = new HashMap<>();
         this.countdown = new Countdown(hungerGames, this);
         this.gameTimer = new GameTimer(hungerGames, this);
@@ -70,8 +71,13 @@ public class Game {
         }
         setState(GameState.ENDING);
         sendMessage(ChatColor.YELLOW + "Game is now in ENDING State");
+        sendMessage(ChatColor.RED + "Game will reset in 10 seconds...");
 
-        cleanUp();
+        Bukkit.getScheduler().scheduleSyncDelayedTask(hungerGames, new Runnable() {
+            public void run() {
+                cleanUp();
+            }
+        }, 200L);
     }
 
     public void cleanUp() {
@@ -161,6 +167,9 @@ public class Game {
 
     public void addPlayer(Player player) {
         players.add(player.getUniqueId());
+        player.setGameMode(GameMode.ADVENTURE);
+        player.setHealth(20);
+        player.setFoodLevel(20);
         player.teleport(spawn);
         player.closeInventory();
         player.getInventory().clear();
@@ -181,6 +190,7 @@ public class Game {
 
     public void removePlayer(Player player) {
         players.remove(player.getUniqueId());
+        getScoreBoardManager().updatePlayerCounter();
         player.teleport(hub);
         getScoreBoardManager().clearScoreboard(player);
         player.sendTitle("", "");

@@ -123,22 +123,25 @@ public class ScoreboardManager {
         SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
         String formattedDate = formatter.format(today);
         Score date = objective.getScore(ChatColor.GRAY + formattedDate);
-        date.setScore(7);
+        date.setScore(8);
 
         Team timer = scoreboard.registerNewTeam("timer");
         timer.addEntry(ChatColor.LIGHT_PURPLE.toString());
         timer.setPrefix(ChatColor.WHITE + "Time Left: ");
         timer.setSuffix(ChatColor.GREEN + "2:00");
-        objective.getScore(ChatColor.LIGHT_PURPLE.toString()).setScore(6);
+        objective.getScore(ChatColor.LIGHT_PURPLE.toString()).setScore(7);
 
         Score space1 = objective.getScore(" ");
-        space1.setScore(5);
+        space1.setScore(6);
 
-        Score alive = objective.getScore(ChatColor.WHITE + "Players: " + ChatColor.AQUA + hungerGames.getGame().getPlayers().size());
-        alive.setScore(4);
+        Team alive = scoreboard.registerNewTeam("alive");
+        alive.addEntry(ChatColor.YELLOW.toString());
+        alive.setPrefix(ChatColor.WHITE + "Players: ");
+        alive.setSuffix(ChatColor.AQUA + "" + hungerGames.getGame().getPlayers().size());
+        objective.getScore(ChatColor.YELLOW.toString()).setScore(5);
 
         Score space2 = objective.getScore("  ");
-        space2.setScore(3);
+        space2.setScore(4);
 
         Team selectedKit = scoreboard.registerNewTeam("selectedkit");
         selectedKit.addEntry(ChatColor.BOLD.toString());
@@ -173,6 +176,26 @@ public class ScoreboardManager {
             Team countdownTeam = objective.getScoreboard().getTeam("countdown");
             if (countdownTeam != null) {
                 countdownTeam.setSuffix(ChatColor.GREEN + timeFormatted);
+            }
+        }
+    }
+
+    public void updatePlayerCounter() {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            Scoreboard scoreboard = player.getScoreboard();
+            Objective objective = scoreboard.getObjective("Start_HungerGames");
+
+            if (objective == null) {
+                continue; //
+            }
+
+            int aliveCounter = hungerGames.getGame().getPlayers().size();
+
+
+            Team aliveTeam = objective.getScoreboard().getTeam("alive");
+            if (aliveTeam != null) {
+                aliveTeam.setPrefix(ChatColor.WHITE + "Players: ");
+                aliveTeam.setSuffix(ChatColor.AQUA + "" + aliveCounter);
             }
         }
     }

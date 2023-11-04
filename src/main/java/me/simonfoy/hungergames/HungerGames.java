@@ -1,5 +1,6 @@
 package me.simonfoy.hungergames;
 
+import me.simonfoy.hungergames.command.GameCommand;
 import me.simonfoy.hungergames.command.KitCommand;
 import me.simonfoy.hungergames.instance.Game;
 import me.simonfoy.hungergames.listener.ConnectListener;
@@ -18,6 +19,7 @@ public final class HungerGames extends JavaPlugin {
         game = new Game(this);
 
         getCommand("kit").setExecutor(new KitCommand(this, game));
+        getCommand("game").setExecutor(new GameCommand(this, game));
         Bukkit.getPluginManager().registerEvents(new ConnectListener(this), this);
 
     }

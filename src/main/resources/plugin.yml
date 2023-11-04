@@ -4,3 +4,4 @@ main: me.simonfoy.hungergames.HungerGames
 api-version: '1.20'
 commands:
   kit:
+  game:
