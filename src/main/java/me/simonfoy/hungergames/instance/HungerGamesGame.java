@@ -62,7 +62,6 @@ public class HungerGamesGame extends GameListener {
                 trackerCompass.setItemMeta(meta);
                 player.getInventory().setItem(8, trackerCompass);
 
-                updateCompassTracker(player);
             }
         }
         Bukkit.getWorld("world").setTime(1000);
