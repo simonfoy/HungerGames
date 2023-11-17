@@ -16,11 +16,11 @@ public class FeastTimer extends BukkitRunnable {
     public FeastTimer(HungerGames hungerGames, Game game) {
         this.hungerGames = hungerGames;
         this.game = game;
-        this.feastTimerSeconds = 900;
+        this.feastTimerSeconds = 300;
     }
 
     public void start() {
-        game.sendMessage(ChatColor.RED + "The feast will spawn in 15 minutes!");
+        game.sendMessage(ChatColor.RED + "The feast will spawn in 5 minutes!");
         isRunning = true;
         runTaskTimer(hungerGames, 0, 20);
     }

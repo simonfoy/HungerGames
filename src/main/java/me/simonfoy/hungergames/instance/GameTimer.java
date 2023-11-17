@@ -4,6 +4,8 @@ import me.simonfoy.hungergames.HungerGames;
 import org.bukkit.ChatColor;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.Random;
+
 public class GameTimer extends BukkitRunnable {
 
     private HungerGames hungerGames;
@@ -12,11 +14,15 @@ public class GameTimer extends BukkitRunnable {
     private boolean isRunning = false;
 
     private int gameTimer;
+    private int feastTime;
 
     public GameTimer(HungerGames hungerGames, Game game) {
         this.hungerGames = hungerGames;
         this.game = game;
         this.gameTimer = 0;
+
+        Random random = new Random();
+        feastTime = 1200 + random.nextInt(300);
     }
 
     public void start() {
@@ -47,6 +53,10 @@ public class GameTimer extends BukkitRunnable {
 
         if (gameTimer >= 120) {
             hungerGames.getGame().getScoreBoardManager().updateGameTimer();
+        }
+
+        if (gameTimer == feastTime) {
+            hungerGames.getGame().getFeastTimer().start();
         }
 
         gameTimer++;
